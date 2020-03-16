@@ -402,6 +402,7 @@ public class FileFragment
                     Uri uri = clipData.getItemAt(i).getUri();
 
                 }
+
             }
         }
     }
