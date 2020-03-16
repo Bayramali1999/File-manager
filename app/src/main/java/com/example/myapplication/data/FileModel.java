@@ -3,7 +3,7 @@ package com.example.myapplication.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class FileModel extends BaseModel {
+public class FileModel implements Parcelable {
     private String name;
     private String path;
     private long lastModified;
@@ -16,6 +16,29 @@ public class FileModel extends BaseModel {
         this.lastModified = lastModified;
         this.length = length;
     }
+
+    public FileModel(String name) {
+        this.name = name;
+    }
+
+    private FileModel(Parcel in) {
+        name = in.readString();
+        path = in.readString();
+        lastModified = in.readLong();
+        length = in.readLong();
+    }
+
+    public static final Creator<FileModel> CREATOR = new Creator<FileModel>() {
+        @Override
+        public FileModel createFromParcel(Parcel in) {
+            return new FileModel(in);
+        }
+
+        @Override
+        public FileModel[] newArray(int size) {
+            return new FileModel[size];
+        }
+    };
 
     public String getName() {
         return name;

@@ -9,10 +9,8 @@ import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.adapter.FileVH;
-import com.example.myapplication.data.BaseModel;
-import com.example.myapplication.data.FileModel;
 
-public class MyFileLookup extends ItemDetailsLookup<BaseModel> {
+public class MyFileLookup extends ItemDetailsLookup {
 
     private final RecyclerView recyclerView;
 
@@ -22,7 +20,7 @@ public class MyFileLookup extends ItemDetailsLookup<BaseModel> {
 
     @Nullable
     @Override
-    public ItemDetails<BaseModel> getItemDetails(@NonNull MotionEvent e) {
+    public ItemDetails getItemDetails(@NonNull MotionEvent e) {
         View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
         if (view != null) {
             RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
@@ -32,4 +30,6 @@ public class MyFileLookup extends ItemDetailsLookup<BaseModel> {
         }
         return null;
     }
+
+
 }

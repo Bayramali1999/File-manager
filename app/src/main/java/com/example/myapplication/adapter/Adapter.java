@@ -9,64 +9,36 @@ import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.data.BaseModel;
 import com.example.myapplication.data.FileModel;
-import com.example.myapplication.data.OtherDocModel;
 import com.example.myapplication.listener.FileItemClickListener;
-import com.example.myapplication.listener.OtherDocClickListener;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<BaseVH> {
-    private List<BaseModel> list;
+public class Adapter extends RecyclerView.Adapter<FileVH> {
+    private List<FileModel> list;
     private boolean showExtension;
     private FileItemClickListener listener;
-    private SelectionTracker<BaseModel> selectionTracker;
-    private static final int OTHER_DOC = 0;
-    private static final int FILE = 1;
-    private OtherDocClickListener otherDocClickListener;
+    private SelectionTracker<FileModel> selectionTracker;
 
-    public Adapter(List<BaseModel> files, boolean b,
-                   FileItemClickListener clickListener,
-                   OtherDocClickListener otherDocClickListener) {
+    public Adapter(List<FileModel> files, boolean b,
+                   FileItemClickListener clickListener) {
         this.list = files;
         this.showExtension = b;
         this.listener = clickListener;
-        this.otherDocClickListener = otherDocClickListener;
     }
 
     @NonNull
     @Override
-    public BaseVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == FILE) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.file_item, parent, false);
-            return new FileVH(view, showExtension, listener);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_doc_item, parent, false);
-            return new OtherDocVH(view, otherDocClickListener);
-        }
+    public FileVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.file_item, parent, false);
+        return new FileVH(view, false, listener, showExtension);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        BaseModel item = list.get(position);
-        if (item instanceof OtherDocModel) {
-            return OTHER_DOC;
-        } else {
-            return FILE;
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull BaseVH holder, int position) {
-        BaseModel file = list.get(position);
-        if (file instanceof FileModel) {
-            boolean isSelected = selectionTracker.isSelected((FileModel) file);
-            holder.onBind(file, isSelected);
-
-        } else {
-            holder.onBind(file, true);
-        }
+    public void onBindViewHolder(@NonNull FileVH holder, int position) {
+        FileModel file = list.get(position);
+        boolean isSelected = selectionTracker.isSelected(file);
+        holder.onBind(file, isSelected, position);
     }
 
 
@@ -75,7 +47,7 @@ public class Adapter extends RecyclerView.Adapter<BaseVH> {
         return list.size();
     }
 
-    public void setSelectionTracker(SelectionTracker<BaseModel> selectionTracker) {
+    public void setSelectionTracker(SelectionTracker<FileModel> selectionTracker) {
         this.selectionTracker = selectionTracker;
     }
 }
