@@ -400,7 +400,7 @@ public class FileFragment
                 int count = clipData.getItemCount();
                 for (int i = 0; i < count; i++) {
                     Uri uri = clipData.getItemAt(i).getUri();
-//sdsadas
+
                 }
 
             }
